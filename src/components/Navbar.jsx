@@ -22,86 +22,104 @@ const Navbar = ({ setIsSidebarOpen, projects = [] }) => {
   );
 
   return (
-    <div className="w-full bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800 px-6 xl:px-16 py-3 flex-shrink-0">
-      <div className="flex items-center justify-between max-w-6xl mx-auto">
+  <div className="w-full bg-white border-b border-gray-200 px-4 md:px-8 py-4 shadow-sm">
 
-        {/* Left Section */}
-        <div className="flex items-center gap-4 min-w-0 flex-1">
+    <div className="flex items-center justify-between gap-4">
 
-          {/* Sidebar Button */}
-          <button
-            onClick={() => setIsSidebarOpen((prev) => !prev)}
-            className="sm:hidden p-2 rounded-lg transition-colors text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800"
-          >
-            <PanelLeft size={20} />
-          </button>
+      {/* Left Section */}
+      <div className="flex items-center gap-4 flex-1">
 
-          {/* Search Input */}
-          <div className="relative flex-1 max-w-sm">
-            <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 text-gray-400 dark:text-zinc-400 size-3.5" />
+        {/* Sidebar Button */}
+        <button
+          onClick={() => setIsSidebarOpen((prev) => !prev)}
+          className="sm:hidden p-2 rounded-xl border border-gray-200 hover:bg-gray-100 transition"
+        >
+          <PanelLeft size={20} className="text-gray-700" />
+        </button>
 
-            <input
-              type="text"
-              placeholder="Search projects..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="pl-8 pr-4 py-2 w-full bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-700 rounded-md text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-zinc-400 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 transition"
-            />
+        {/* Search */}
+        <div className="relative w-full max-w-md">
 
-            {/* Search Results */}
-            {search && (
-              <div className="absolute top-12 left-0 w-full bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-700 rounded-lg shadow-lg z-50 max-h-60 overflow-y-auto">
+          <SearchIcon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
 
-                {filteredProjects.length > 0 ? (
-                  filteredProjects.map((project, index) => (
-                    <div
-                      key={index}
-                      className="px-4 py-2 text-sm text-gray-700 dark:text-white hover:bg-gray-100 dark:hover:bg-zinc-800 cursor-pointer"
-                    >
-                      {project.title}
-                    </div>
-                  ))
-                ) : (
-                  <div className="px-4 py-2 text-sm text-gray-500">
-                    No project found
+          <input
+            type="text"
+            placeholder="Search projects..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full border border-gray-300 rounded-xl pl-11 pr-4 py-3 text-sm outline-none focus:ring-2 focus:ring-black"
+          />
+
+          {/* Search Results */}
+          {search && (
+            <div className="absolute top-14 left-0 w-full bg-white border border-gray-200 rounded-2xl shadow-xl overflow-hidden z-50">
+
+              {filteredProjects.length > 0 ? (
+
+                filteredProjects.map((project, index) => (
+
+                  <div
+                    key={index}
+                    className="px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer transition border-b last:border-b-0 border-gray-100"
+                  >
+                    {project.title}
                   </div>
-                )}
-              </div>
-            )}
-          </div>
+
+                ))
+
+              ) : (
+
+                <div className="px-4 py-3 text-sm text-gray-500">
+                  No project found
+                </div>
+
+              )}
+
+            </div>
+          )}
+
         </div>
 
-        {/* Right Section */}
-        <div className="flex items-center gap-3">
-
-          {/* Theme Toggle */}
-          <button
-            onClick={() => dispatch(toggleTheme())}
-            className="size-8 flex items-center justify-center bg-white dark:bg-zinc-800 shadow rounded-lg transition hover:scale-105 active:scale-95"
-          >
-            {theme === "light" ? (
-              <MoonIcon className="size-4 text-gray-800 dark:text-gray-200" />
-            ) : (
-              <SunIcon className="size-4 text-yellow-400" />
-            )}
-          </button>
-
-          {/* Authentication */}
-          <SignedOut>
-            <SignInButton>
-              <button className="px-3 py-1.5 text-sm bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                Login
-              </button>
-            </SignInButton>
-          </SignedOut>
-
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
-        </div>
       </div>
+
+      {/* Right Section */}
+      <div className="flex items-center gap-3">
+
+        {/* Theme Toggle */}
+        <button
+          onClick={() => dispatch(toggleTheme())}
+          className="w-11 h-11 flex items-center justify-center rounded-xl border border-gray-200 hover:bg-gray-100 transition"
+        >
+          {theme === "light" ? (
+            <MoonIcon className="w-5 h-5 text-gray-700" />
+          ) : (
+            <SunIcon className="w-5 h-5 text-yellow-500" />
+          )}
+        </button>
+
+        {/* Auth */}
+        <SignedOut>
+          <SignInButton>
+
+            <button className="px-5 py-2.5 bg-black text-white rounded-xl hover:bg-gray-800 transition text-sm font-medium">
+              Login
+            </button>
+
+          </SignInButton>
+        </SignedOut>
+
+        <SignedIn>
+          <div className="border border-gray-200 rounded-full p-1 shadow-sm">
+            <UserButton />
+          </div>
+        </SignedIn>
+
+      </div>
+
     </div>
-  );
+
+  </div>
+);
 };
 
 export default Navbar;

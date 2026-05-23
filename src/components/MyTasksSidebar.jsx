@@ -41,51 +41,103 @@ function MyTasksSidebar() {
     }, [currentWorkspace])
 
     return (
-        <div className="mt-6 px-3">
-            <div onClick={toggleMyTasks} className="flex items-center justify-between px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-zinc-800" >
-                <div className="flex items-center gap-2">
-                    <CheckSquareIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                    <h3 className="text-sm font-medium text-gray-700 dark:text-zinc-300">My Tasks</h3>
-                    <span className="bg-gray-200 dark:bg-zinc-700 text-gray-700 dark:text-zinc-300 text-xs px-2 py-0.5 rounded">
-                        {myTasks.length}
-                    </span>
-                </div>
-                {showMyTasks ? (
-                    <ChevronDownIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                ) : (
-                    <ChevronRightIcon className="w-4 h-4 text-gray-500 dark:text-zinc-400" />
-                )}
-            </div>
+  <div className="mt-6 px-4">
 
-            {showMyTasks && (
-                <div className="mt-2 pl-2">
-                    <div className="space-y-1">
-                        {myTasks.length === 0 ? (
-                            <div className="px-3 py-2 text-xs text-gray-500 dark:text-zinc-500 text-center">
-                                No tasks assigned
-                            </div>
-                        ) : (
-                            myTasks.map((task, index) => (
-                                <Link key={index} to={`/taskDetails?projectId=${task.projectId}&taskId=${task.id}`} className="w-full rounded-lg transition-all duration-200 text-gray-700 dark:text-zinc-300 hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white" >
-                                    <div className="flex items-center gap-2 px-3 py-2 w-full min-w-0">
-                                        <div className={`w-2 h-2 rounded-full ${getTaskStatusColor(task.status)} flex-shrink-0`} />
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-xs font-medium truncate">
-                                                {task.title}
-                                            </p>
-                                            <p className="text-xs text-gray-500 dark:text-zinc-500 lowercase">
-                                                {task.status.replace('_', ' ')}
-                                            </p>
-                                        </div>
-                                    </div>
-                                </Link>
-                            ))
-                        )}
-                    </div>
-                </div>
-            )}
+    {/* Header */}
+    <div
+      onClick={toggleMyTasks}
+      className="flex items-center justify-between bg-white border border-gray-200 rounded-xl px-4 py-3 cursor-pointer hover:shadow-md transition"
+    >
+
+      <div className="flex items-center gap-3">
+
+        <div className="bg-black p-2 rounded-lg">
+          <CheckSquareIcon className="w-4 h-4 text-white" />
         </div>
-    );
+
+        <div>
+          <h3 className="text-sm font-semibold text-gray-800">
+            My Tasks
+          </h3>
+
+          <p className="text-xs text-gray-500">
+            Assigned tasks
+          </p>
+        </div>
+
+      </div>
+
+      <div className="flex items-center gap-3">
+
+        <span className="bg-black text-white text-xs px-2.5 py-1 rounded-full">
+          {myTasks.length}
+        </span>
+
+        {showMyTasks ? (
+          <ChevronDownIcon className="w-4 h-4 text-gray-500" />
+        ) : (
+          <ChevronRightIcon className="w-4 h-4 text-gray-500" />
+        )}
+
+      </div>
+
+    </div>
+
+    {/* Task List */}
+    {showMyTasks && (
+
+      <div className="mt-4 space-y-3">
+
+        {myTasks.length === 0 ? (
+
+          <div className="bg-gray-100 rounded-xl py-6 text-center text-sm text-gray-500">
+            No tasks assigned
+          </div>
+
+        ) : (
+
+          myTasks.map((task, index) => (
+
+            <Link
+              key={index}
+              to={`/taskDetails?projectId=${task.projectId}&taskId=${task.id}`}
+              className="block bg-white border border-gray-200 rounded-xl p-4 hover:shadow-md transition"
+            >
+
+              <div className="flex items-start gap-3">
+
+                {/* Status Dot */}
+                <div
+                  className={`w-3 h-3 rounded-full mt-1 ${getTaskStatusColor(task.status)}`}
+                />
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+
+                  <h4 className="text-sm font-semibold text-gray-800 truncate">
+                    {task.title}
+                  </h4>
+
+                  <p className="text-xs text-gray-500 mt-1 lowercase">
+                    {task.status.replace("_", " ")}
+                  </p>
+
+                </div>
+
+              </div>
+
+            </Link>
+
+          ))
+
+        )}
+
+      </div>
+
+    )}
+
+  </div>
+);
 }
 
 export default MyTasksSidebar;

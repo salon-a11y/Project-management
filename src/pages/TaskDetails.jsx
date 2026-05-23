@@ -76,105 +76,335 @@ const TaskDetails = () => {
     if (loading) return <div className="text-gray-500 dark:text-zinc-400 px-4 py-6">Loading task details...</div>;
     if (!task) return <div className="text-red-500 px-4 py-6">Task not found.</div>;
 
+   
     return (
-        <div className="flex flex-col-reverse lg:flex-row gap-6 sm:p-4 text-gray-900 dark:text-zinc-100 max-w-6xl mx-auto">
-            {/* Left: Comments / Chatbox */}
-            <div className="w-full lg:w-2/3">
-                <div className="p-5 rounded-md  border border-gray-300 dark:border-zinc-800  flex flex-col lg:h-[80vh]">
-                    <h2 className="text-base font-semibold flex items-center gap-2 mb-4 text-gray-900 dark:text-white">
-                        <MessageCircle className="size-5" /> Task Discussion ({comments.length})
-                    </h2>
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
 
-                    <div className="flex-1 md:overflow-y-scroll no-scrollbar">
-                        {comments.length > 0 ? (
-                            <div className="flex flex-col gap-4 mb-6 mr-2">
-                                {comments.map((comment) => (
-                                    <div key={comment.id} className={`sm:max-w-4/5 dark:bg-gradient-to-br dark:from-zinc-800 dark:to-zinc-900 border border-gray-300 dark:border-zinc-700 p-3 rounded-md ${comment.user.id === user?.id ? "ml-auto" : "mr-auto"}`} >
-                                        <div className="flex items-center gap-2 mb-1 text-sm text-gray-500 dark:text-zinc-400">
-                                            <img src={comment.user.image} alt="avatar" className="size-5 rounded-full" />
-                                            <span className="font-medium text-gray-900 dark:text-white">{comment.user.name}</span>
-                                            <span className="text-xs text-gray-400 dark:text-zinc-600">
-                                                • {format(new Date(comment.createdAt), "dd MMM yyyy, HH:mm")}
-                                            </span>
-                                        </div>
-                                        <p className="text-sm text-gray-900 dark:text-zinc-200">{comment.content}</p>
-                                    </div>
-                                ))}
+            {/* Left Section */}
+            <div className="xl:col-span-2">
+                
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl shadow-sm overflow-hidden">
+
+                    {/* Header */}
+                    <div className="px-6 py-5 border-b border-zinc-200 dark:border-zinc-800 flex items-center justify-between">
+                        
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 rounded-2xl bg-blue-100 dark:bg-blue-500/10">
+                                <MessageCircle className="size-5 text-blue-600 dark:text-blue-400" />
                             </div>
+
+                            <div>
+                                <h2 className="text-lg font-semibold text-zinc-900 dark:text-white">
+                                    Task Discussion
+                                </h2>
+
+                                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                                    {comments.length} comments
+                                </p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    {/* Comments */}
+                    <div className="h-[60vh] overflow-y-auto px-6 py-5 space-y-5">
+
+                        {comments.length > 0 ? (
+
+                            comments.map((comment) => (
+
+                                <div
+                                    key={comment.id}
+                                    className={`flex ${
+                                        comment.user.id === user?.id
+                                            ? "justify-end"
+                                            : "justify-start"
+                                    }`}
+                                >
+
+                                    <div
+                                        className={`max-w-[85%] rounded-2xl px-4 py-3 border shadow-sm ${
+                                            comment.user.id === user?.id
+                                                ? "bg-blue-600 text-white border-blue-600"
+                                                : "bg-zinc-50 dark:bg-zinc-800 border-zinc-200 dark:border-zinc-700"
+                                        }`}
+                                    >
+
+                                        <div className="flex items-center gap-2 mb-2">
+
+                                            <img
+                                                src={comment.user.image}
+                                                alt="avatar"
+                                                className="size-7 rounded-full border border-white/20"
+                                            />
+
+                                            <div className="flex flex-col">
+                                                <span
+                                                    className={`text-sm font-medium ${
+                                                        comment.user.id === user?.id
+                                                            ? "text-white"
+                                                            : "text-zinc-900 dark:text-white"
+                                                    }`}
+                                                >
+                                                    {comment.user.name}
+                                                </span>
+
+                                                <span
+                                                    className={`text-xs ${
+                                                        comment.user.id === user?.id
+                                                            ? "text-blue-100"
+                                                            : "text-zinc-500 dark:text-zinc-400"
+                                                    }`}
+                                                >
+                                                    {format(
+                                                        new Date(comment.createdAt),
+                                                        "dd MMM yyyy • HH:mm"
+                                                    )}
+                                                </span>
+                                            </div>
+
+                                        </div>
+
+                                        <p
+                                            className={`text-sm leading-relaxed ${
+                                                comment.user.id === user?.id
+                                                    ? "text-white"
+                                                    : "text-zinc-700 dark:text-zinc-200"
+                                            }`}
+                                        >
+                                            {comment.content}
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            ))
+
                         ) : (
-                            <p className="text-gray-600 dark:text-zinc-500 mb-4 text-sm">No comments yet. Be the first!</p>
+
+                            <div className="h-full flex flex-col items-center justify-center text-center">
+
+                                <div className="size-16 rounded-full bg-zinc-100 dark:bg-zinc-800 flex items-center justify-center mb-4">
+                                    <MessageCircle className="size-8 text-zinc-400" />
+                                </div>
+
+                                <h3 className="text-lg font-medium text-zinc-900 dark:text-white">
+                                    No comments yet
+                                </h3>
+
+                                <p className="text-sm text-zinc-500 dark:text-zinc-400 mt-1">
+                                    Start the discussion for this task.
+                                </p>
+
+                            </div>
+
                         )}
+
                     </div>
 
-                    {/* Add Comment */}
-                    <div className="flex flex-col sm:flex-row items-start sm:items-end gap-3">
-                        <textarea
-                            value={newComment}
-                            onChange={(e) => setNewComment(e.target.value)}
-                            placeholder="Write a comment..."
-                            className="w-full dark:bg-zinc-800 border border-gray-300 dark:border-zinc-700 rounded-md p-2 text-sm text-gray-900 dark:text-zinc-200 resize-none focus:outline-none focus:ring-1 focus:ring-blue-600"
-                            rows={3}
-                        />
-                        <button onClick={handleAddComment} className="bg-gradient-to-l from-blue-500 to-blue-600 transition-colors text-white text-sm px-5 py-2 rounded " >
-                            Post
-                        </button>
+                    {/* Comment Input */}
+                    <div className="border-t border-zinc-200 dark:border-zinc-800 p-5">
+
+                        <div className="flex flex-col sm:flex-row gap-4">
+
+                            <textarea
+                                value={newComment}
+                                onChange={(e) =>
+                                    setNewComment(e.target.value)
+                                }
+                                placeholder="Write your comment..."
+                                rows={3}
+                                className="flex-1 rounded-2xl border border-zinc-300 dark:border-zinc-700 bg-white dark:bg-zinc-950 px-4 py-3 text-sm text-zinc-900 dark:text-white placeholder:text-zinc-400 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+                            />
+
+                            <button
+                                onClick={handleAddComment}
+                                className="h-fit px-6 py-3 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-sm font-medium shadow-lg hover:scale-[1.02] transition-all"
+                            >
+                                Post Comment
+                            </button>
+
+                        </div>
+
                     </div>
+
                 </div>
+
             </div>
 
-            {/* Right: Task + Project Info */}
-            <div className="w-full lg:w-1/2 flex flex-col gap-6">
-                {/* Task Info */}
-                <div className="p-5 rounded-md bg-white dark:bg-zinc-900 border border-gray-300 dark:border-zinc-800 ">
-                    <div className="mb-3">
-                        <h1 className="text-lg font-medium text-gray-900 dark:text-zinc-100">{task.title}</h1>
-                        <div className="flex flex-wrap gap-2 mt-2">
-                            <span className="px-2 py-0.5 rounded bg-zinc-200 dark:bg-zinc-700 text-zinc-900 dark:text-zinc-300 text-xs">
-                                {task.status}
-                            </span>
-                            <span className="px-2 py-0.5 rounded bg-blue-200 dark:bg-blue-900 text-blue-900 dark:text-blue-300 text-xs">
-                                {task.type}
-                            </span>
-                            <span className="px-2 py-0.5 rounded bg-green-200 dark:bg-emerald-900 text-green-900 dark:text-emerald-300 text-xs">
-                                {task.priority}
-                            </span>
+            {/* Right Section */}
+            <div className="space-y-6">
+
+                {/* Task Card */}
+                <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-3xl p-6 shadow-sm">
+
+                    <div className="flex items-start justify-between gap-4">
+
+                        <div>
+                            <h1 className="text-2xl font-bold text-zinc-900 dark:text-white">
+                                {task.title}
+                            </h1>
+
+                            {task.description && (
+                                <p className="mt-3 text-sm leading-relaxed text-zinc-600 dark:text-zinc-400">
+                                    {task.description}
+                                </p>
+                            )}
                         </div>
+
                     </div>
 
-                    {task.description && (
-                        <p className="text-sm text-gray-600 dark:text-zinc-400 leading-relaxed mb-4">{task.description}</p>
-                    )}
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2 mt-5">
 
-                    <hr className="border-zinc-200 dark:border-zinc-700 my-3" />
+                        <span className="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-500/10 text-blue-700 dark:text-blue-400 text-xs font-medium">
+                            {task.status}
+                        </span>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm text-gray-700 dark:text-zinc-300">
-                        <div className="flex items-center gap-2">
-                            <img src={task.assignee?.image} className="size-5 rounded-full" alt="avatar" />
-                            {task.assignee?.name || "Unassigned"}
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <CalendarIcon className="size-4 text-gray-500 dark:text-zinc-500" />
-                            Due : {format(new Date(task.due_date), "dd MMM yyyy")}
-                        </div>
+                        <span className="px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-500/10 text-purple-700 dark:text-purple-400 text-xs font-medium">
+                            {task.type}
+                        </span>
+
+                        <span className="px-3 py-1 rounded-full bg-emerald-100 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 text-xs font-medium">
+                            {task.priority}
+                        </span>
+
                     </div>
+
+                    {/* Divider */}
+                    <div className="border-t border-zinc-200 dark:border-zinc-800 my-6" />
+
+                    {/* Details */}
+                    <div className="space-y-4">
+
+                        <div className="flex items-center gap-3">
+
+                            <img
+                                src={task.assignee?.image}
+                                alt="avatar"
+                                className="size-10 rounded-full border border-zinc-200 dark:border-zinc-700"
+                            />
+
+                            <div>
+                                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                                    Assigned To
+                                </p>
+
+                                <p className="font-medium text-zinc-900 dark:text-white">
+                                    {task.assignee?.name || "Unassigned"}
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <div className="flex items-center gap-3">
+
+                            <div className="size-10 rounded-2xl bg-orange-100 dark:bg-orange-500/10 flex items-center justify-center">
+                                <CalendarIcon className="size-5 text-orange-600 dark:text-orange-400" />
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                                    Due Date
+                                </p>
+
+                                <p className="font-medium text-zinc-900 dark:text-white">
+                                    {format(
+                                        new Date(task.due_date),
+                                        "dd MMM yyyy"
+                                    )}
+                                </p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
                 </div>
 
-                {/* Project Info */}
+                {/* Project Card */}
                 {project && (
-                    <div className="p-4 rounded-md bg-white dark:bg-zinc-900 text-zinc-700 dark:text-zinc-200 border border-gray-300 dark:border-zinc-800 ">
-                        <p className="text-xl font-medium mb-4">Project Details</p>
-                        <h2 className="text-gray-900 dark:text-zinc-100 flex items-center gap-2"> <PenIcon className="size-4" /> {project.name}</h2>
-                        <p className="text-xs mt-3">Project Start Date: {format(new Date(project.start_date), "dd MMM yyyy")}</p>
-                        <div className="flex flex-wrap gap-4 text-sm text-gray-500 dark:text-zinc-400 mt-3">
-                            <span>Status: {project.status}</span>
-                            <span>Priority: {project.priority}</span>
-                            <span>Progress: {project.progress}%</span>
+
+                    <div className="bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-6 text-white shadow-lg">
+
+                        <div className="flex items-center gap-3 mb-5">
+
+                            <div className="size-12 rounded-2xl bg-white/10 flex items-center justify-center">
+                                <PenIcon className="size-5" />
+                            </div>
+
+                            <div>
+                                <p className="text-sm text-blue-100">
+                                    Project
+                                </p>
+
+                                <h2 className="text-xl font-semibold">
+                                    {project.name}
+                                </h2>
+                            </div>
+
                         </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+
+                            <div className="bg-white/10 rounded-2xl p-4">
+                                <p className="text-xs text-blue-100 mb-1">
+                                    Status
+                                </p>
+
+                                <h3 className="font-medium">
+                                    {project.status}
+                                </h3>
+                            </div>
+
+                            <div className="bg-white/10 rounded-2xl p-4">
+                                <p className="text-xs text-blue-100 mb-1">
+                                    Priority
+                                </p>
+
+                                <h3 className="font-medium">
+                                    {project.priority}
+                                </h3>
+                            </div>
+
+                            <div className="bg-white/10 rounded-2xl p-4">
+                                <p className="text-xs text-blue-100 mb-1">
+                                    Progress
+                                </p>
+
+                                <h3 className="font-medium">
+                                    {project.progress}%
+                                </h3>
+                            </div>
+
+                            <div className="bg-white/10 rounded-2xl p-4">
+                                <p className="text-xs text-blue-100 mb-1">
+                                    Start Date
+                                </p>
+
+                                <h3 className="font-medium text-sm">
+                                    {format(
+                                        new Date(project.start_date),
+                                        "dd MMM yyyy"
+                                    )}
+                                </h3>
+                            </div>
+
+                        </div>
+
                     </div>
+
                 )}
+
             </div>
+
         </div>
-    );
+
+    </div>
+);
 };
 
 export default TaskDetails;

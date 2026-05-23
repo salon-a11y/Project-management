@@ -1,111 +1,88 @@
-import { Plus } from 'lucide-react'
-import { useState } from 'react'
-import { useUser } from "@clerk/clerk-react"
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useUser } from "@clerk/clerk-react";
 
-import StatsGrid from '../components/StatsGrid'
-import ProjectOverview from '../components/ProjectOverview'
-import RecentActivity from '../components/RecentActivity'
-import TasksSummary from '../components/TasksSummary'
-import CreateProjectDialog from '../components/CreateProjectDialog'
+import StatsGrid from "../components/StatsGrid";
+import ProjectOverview from "../components/ProjectOverview";
+import RecentActivity from "../components/RecentActivity";
+import TasksSummary from "../components/TasksSummary";
+import CreateProjectDialog from "../components/CreateProjectDialog";
 
 const Dashboard = () => {
+  const { user, isLoaded } = useUser();
 
-    const { user, isLoaded } = useUser()
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-    if (!isLoaded) return null  // wait for Clerk to load
+  if (!isLoaded) return null;
 
-    const displayName =
-        user?.fullName ||
-        user?.firstName ||
-        user?.primaryEmailAddress?.emailAddress?.split("@")[0] ||
-        "User"
+  const displayName =
+    user?.fullName ||
+    user?.firstName ||
+    user?.primaryEmailAddress?.emailAddress?.split("@")[0] ||
+    "User";
 
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-zinc-950 dark:via-zinc-900 dark:to-zinc-950">
-            
-            <div className="max-w-7xl mx-auto px-6 py-10">
+  return (
+    <div className="min-h-screen bg-gray-100 dark:bg-zinc-950">
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
 
-                {/* Header */}
-                <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-14">
+        {/* Top Header */}
+        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm flex flex-col lg:flex-row items-start lg:items-center justify-between gap-5 mb-8">
 
-                    <div className="space-y-2">
-                        <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-indigo-600 to-blue-500 bg-clip-text text-transparent">
-                            Welcome back, {displayName}
-                        </h1>
+          <div>
+            <h1 className="text-3xl font-bold text-gray-800 dark:text-white">
+              Welcome, {displayName}
+            </h1>
 
-                        <p className="text-gray-500 dark:text-zinc-400 text-sm sm:text-base">
-                            Here's what's happening with your projects today
-                        </p>
-                    </div>
+            <p className="text-sm text-gray-500 dark:text-zinc-400 mt-1">
+              Manage your projects and tasks easily
+            </p>
+          </div>
 
-                    <button
-                        onClick={() => setIsDialogOpen(true)}
-                        className="flex items-center gap-2 px-6 py-3 rounded-2xl 
-                        bg-gradient-to-r from-indigo-500 to-purple-600 
-                        text-white font-medium shadow-lg 
-                        hover:shadow-indigo-500/30 
-                        hover:-translate-y-0.5 
-                        transition-all duration-300"
-                    >
-                        <Plus size={16} />
-                        New Project
-                    </button>
+          <button
+            onClick={() => setIsDialogOpen(true)}
+            className="flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-lg hover:bg-gray-800 transition"
+          >
+            <Plus size={18} />
+            New Project
+          </button>
 
-                    <CreateProjectDialog
-                        isDialogOpen={isDialogOpen}
-                        setIsDialogOpen={setIsDialogOpen}
-                    />
-                </div>
-
-                {/* Stats Section */}
-                <div className="mb-14 p-6 rounded-3xl 
-                bg-white/70 dark:bg-zinc-900/60 
-                backdrop-blur-xl 
-                border border-gray-200 dark:border-zinc-800 
-                shadow-sm">
-                    <StatsGrid />
-                </div>
-
-                {/* Main Content */}
-                <div className="grid lg:grid-cols-3 gap-10">
-
-                    <div className="lg:col-span-2 space-y-10">
-
-                        <div className="rounded-3xl 
-                        bg-white dark:bg-zinc-900 
-                        border border-gray-200 dark:border-zinc-800 
-                        shadow-md hover:shadow-xl 
-                        transition-all duration-300 
-                        p-8">
-                            <ProjectOverview />
-                        </div>
-
-                        <div className="rounded-3xl 
-                        bg-white dark:bg-zinc-900 
-                        border border-gray-200 dark:border-zinc-800 
-                        shadow-md hover:shadow-xl 
-                        transition-all duration-300 
-                        p-8">
-                            <RecentActivity />
-                        </div>
-
-                    </div>
-
-                    <div className="rounded-3xl 
-                    bg-white dark:bg-zinc-900 
-                    border border-gray-200 dark:border-zinc-800 
-                    shadow-md hover:shadow-xl 
-                    transition-all duration-300 
-                    p-8">
-                        <TasksSummary />
-                    </div>
-
-                </div>
-
-            </div>
+          <CreateProjectDialog
+            isDialogOpen={isDialogOpen}
+            setIsDialogOpen={setIsDialogOpen}
+          />
         </div>
-    )
-}
 
-export default Dashboard
+        {/* Stats */}
+        <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-5 shadow-sm mb-8">
+          <StatsGrid />
+        </div>
+
+        {/* Main Layout */}
+        <div className="grid lg:grid-cols-3 gap-6">
+
+          {/* Left Side */}
+          <div className="lg:col-span-2 space-y-6">
+
+            <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+              <ProjectOverview />
+            </div>
+
+            <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm">
+              <RecentActivity />
+            </div>
+
+          </div>
+
+          {/* Right Side */}
+          <div className="bg-white dark:bg-zinc-900 border border-gray-200 dark:border-zinc-800 rounded-2xl p-6 shadow-sm h-fit">
+            <TasksSummary />
+          </div>
+
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Dashboard;
